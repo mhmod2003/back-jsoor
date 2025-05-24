@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RefugeeController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LoginAdminController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,9 +20,13 @@ use App\Http\Controllers\AuthController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+
+
 });
 
 Route::post('/refugees', [RefugeeController::class, 'store']);
 Route::post('/companies', [CompanyController::class, 'store']);
-Route::post('register', [AuthController::class, 'register']);
-Route::post('login', [AuthController::class, 'login']);
+Route::post('/login1', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login2', [AuthController::class, 'userLogin']);
+

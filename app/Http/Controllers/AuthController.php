@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    // تسجيل الدخول للأدوار: superadmin, admin, survey_team
     public function login(Request $request)
     {
         $data = $request->validate([
@@ -30,8 +29,7 @@ class AuthController extends Controller
                 'message' => 'غير مصرح لك بالدخول.'
             ], 403);
         }
-
-        $token = $user->createToken('vue-token')->plainTextToken;
+         $token = $user->createToken('vue-token')->plainTextToken;
 
         return response()->json([
             'user' => [
@@ -44,11 +42,10 @@ class AuthController extends Controller
                 'created_at' => $user->created_at,
                 'updated_at' => $user->updated_at,
             ],
-            'token' => $token,
+             'token' => $token,
         ], 200);
     }
 
-    // تسجيل دخول المستخدم العادي (role = user)
     public function userLogin(Request $request)
     {
         $data = $request->validate([
@@ -83,14 +80,13 @@ class AuthController extends Controller
         ], 200);
     }
 
-    // تسجيل مستخدم جديد (refugee أو company)
     public function register(Request $request)
     {
         $data = $request->validate([
             'name'     => 'required|string|max:255',
             'email'    => 'required|email|unique:users',
-            'phone'    => 'required|digits:10|unique:users',      // صار مطلوب
-            'type'     => 'required|string',                      // صار نصيّ بدون حصر enum
+            'phone'    => 'required|digits:10|unique:users',      
+            'type'     => 'required|string',                      
             'password' => 'required|confirmed|min:6',
         ]);
 
@@ -122,15 +118,11 @@ class AuthController extends Controller
         ], 201);
     }
 
-    // تسجيل الخروج
     public function logout(Request $request)
     {
-        // التأكد من أن المستخدم مسجل دخول
         if (!$request->user()) {
             return response()->json(['message' => 'Unauthenticated.'], 401);
         }
-
-        // حذف جميع التوكنات المرتبطة بالمستخدم
         $request->user()->tokens->each(function ($token) {
             $token->delete();
         });

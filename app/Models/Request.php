@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Request extends Model
 {
@@ -13,14 +14,19 @@ class Request extends Model
     return $this->belongsTo(User::class);
 }
 
+public function company()
+{
+    return $this->belongsTo(Company::class);
+}
+
 public function ad()
 {
     return $this->belongsTo(Ad::class, 'ads_id');
 }
 
-public function company()
+public function notification()
 {
-    return $this->belongsTo(Company::class);
+    return $this->belongsTo(Notification::class, 'not_id');
 }
 
 }

@@ -11,12 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('meets', function (Blueprint $table) {
+               Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('company_id')->constrained()->onDelete('cascade');
-            $table->text('description');
-            $table->dateTime('datetime');
+            $table->string('company_name');
+            $table->string('social_link')->nullable();
+            $table->text('description')->nullable();
+            $table->string('phone');
+            $table->string('email');
+            $table->string('password');
+            $table->text('map_location')->nullable();
+            $table->string('meet_link')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('meets');
+        Schema::dropIfExists('companies');
     }
 };

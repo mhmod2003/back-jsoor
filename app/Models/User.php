@@ -7,29 +7,36 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Sanctum\Sanctum;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+//use Laravel\Sanctum\PersonalAccessToken as Authenticatable;
 
 class User extends Authenticatable
 {
+    
     use HasApiTokens, HasFactory, Notifiable;
+
+
     public function refugee()
-    {
-        return $this->hasOne(Refugee::class);
-    }
+{
+    return $this->hasOne(Refugee::class);
+}
 
-    public function requests()
-    {
-        return $this->hasMany(Request::class);
-    }
+public function company()
+{
+    return $this->hasOne(Company::class);
+}
 
-    public function meets()
-    {
-        return $this->hasMany(Meet::class);
-    }
+public function notifications()
+{
+    return $this->hasMany(Notification::class);
+}
 
-    public function noteEvaluations()
-    {
-        return $this->hasMany(NoteEvaluation::class);
-    }
+public function requests()
+{
+    return $this->hasMany(Request::class);
+}
     /**
      * The attributes that are mass assignable.
      *
@@ -64,3 +71,5 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 }
+
+

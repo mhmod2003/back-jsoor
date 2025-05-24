@@ -4,8 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Meet extends Model
+class Notification extends Model
 {
     use HasFactory;
     public function user()
@@ -13,8 +15,9 @@ class Meet extends Model
     return $this->belongsTo(User::class);
 }
 
-public function company()
+public function requests()
 {
-    return $this->belongsTo(Company::class);
+    return $this->hasMany(Request::class, 'not_id');
 }
+
 }
