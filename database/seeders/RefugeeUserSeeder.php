@@ -15,7 +15,6 @@ class RefugeeUserSeeder extends Seeder
             'email' => 'refugee@example.com',
             'phone' => '0999999999',
             'type' => 'refugee',
-            'role' => 'user',
             'password' => Hash::make('refugee123'),
         ]);
     }

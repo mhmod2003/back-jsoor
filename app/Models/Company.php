@@ -12,21 +12,19 @@ class Company extends Model
 {
     use HasFactory;
 
-   /* protected $fillable = [
+    protected $fillable = [
         'name',
         'email',
-        'password',
+        'phone',
         'description',
         'social_link',
-    ];*/
+        'map_location',
+        'user_id',
+        'status'
+    ];
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-    
-    public function services()
-    {
-        return $this->hasMany(Service::class);
     }
     
     public function ads()
@@ -34,12 +32,9 @@ class Company extends Model
         return $this->hasMany(Ad::class);
     }
     
-    public function requests()
-    {
-        return $this->hasMany(Request::class);
-    }
+     }
     
-    }
+    
     
    
 

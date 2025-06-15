@@ -15,19 +15,20 @@ class AdminUserSeeder extends Seeder
         // Super Admin
         User::updateOrCreate(
             ['email' => 'super@admin.test'],
-            ['name' => 'SuperAdmin', 'password' => Hash::make('SuperPass123'), 'role' => 'superadmin']
+            ['name' => 'SuperAdmin', 'password' => Hash::make('SuperPass123'), ]
         );
 
         // Admin
         User::updateOrCreate(
             ['email' => 'admin@admin.test'],
-            ['name' => 'Admin', 'password' => Hash::make('AdminPass123'), 'role' => 'admin']
+            ['name' => 'Admin', 'password' => Hash::make('AdminPass123'), ]
+
         );
 
         // Survey Team
         User::updateOrCreate(
             ['email' => 'survey@team.test'],
-            ['name' => 'SurveyTeam', 'password' => Hash::make('SurveyPass123'), 'role' => 'survey_team']
+            ['name' => 'SurveyTeam', 'password' => Hash::make('SurveyPass123'), ]
         );
     }
 }

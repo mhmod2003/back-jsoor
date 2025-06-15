@@ -28,10 +28,6 @@ public function company()
     return $this->hasOne(Company::class);
 }
 
-public function notifications()
-{
-    return $this->hasMany(Notification::class);
-}
 
 public function requests()
 {
@@ -47,7 +43,6 @@ public function requests()
         'email',
         'phone',    // موجود
         'type',     // موجود
-        'role',
         'password',
     ];
 

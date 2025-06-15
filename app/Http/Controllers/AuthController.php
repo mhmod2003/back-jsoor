@@ -23,13 +23,13 @@ class AuthController extends Controller
         }
 
         $user = Auth::user();
-        if (! in_array($user->role, ['superadmin','admin','survey_team'])) {
+        if (! in_array($user->type, ['refugee', 'company', 'Admin'])) {
             Auth::logout();
             return response()->json([
                 'message' => 'غير مصرح لك بالدخول.'
             ], 403);
         }
-         $token = $user->createToken('vue-token')->plainTextToken;
+         $token = $user->createtoken('vue-token')->plainTextToken;
 
         return response()->json([
             'user' => [

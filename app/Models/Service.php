@@ -8,9 +8,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Service extends Model
 {
     use HasFactory;
-    public function company()
+    protected $fillable = [
+        'service_type',
+    ];
+    public function ads()
 {
-    return $this->belongsTo(Company::class);
+    return $this->hasMany(Ad::class);
 }
 
 }

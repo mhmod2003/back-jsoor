@@ -10,14 +10,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Notification extends Model
 {
     use HasFactory;
-    public function user()
-{
-    return $this->belongsTo(User::class);
-}
+    protected $fillable = [
+        'not_id',
+        'user_id',
+        'title',
+        'description',
+    ];
+
 
 public function requests()
 {
-    return $this->hasMany(Request::class, 'not_id');
+    return $this->belongsTo(Request::class, 'not_id');
 }
 
 }

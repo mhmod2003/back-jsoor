@@ -14,11 +14,9 @@ return new class extends Migration
               Schema::create('requests', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('ads_id')->nullable()->constrained('ads')->onDelete('cascade');
             $table->foreignId('not_id')->nullable()->constrained('notifications')->onDelete('cascade');
             $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');
-            $table->text('message')->nullable();
             $table->timestamps();
         });
     }

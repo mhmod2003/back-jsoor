@@ -9,19 +9,21 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Request extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'user_id',
+        'ads_id',
+        'not_id',
+        'status',
+    ];
     public function user()
 {
     return $this->belongsTo(User::class);
 }
 
-public function company()
-{
-    return $this->belongsTo(Company::class);
-}
 
 public function ad()
 {
-    return $this->belongsTo(Ad::class, 'ads_id');
+    return $this->hasMany(Ad::class, 'ads_id');
 }
 
 public function notification()

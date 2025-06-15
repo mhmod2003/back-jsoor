@@ -14,14 +14,12 @@ return new class extends Migration
                Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('company_name');
+            $table->string('name');
             $table->string('social_link')->nullable();
             $table->text('description')->nullable();
             $table->string('phone');
-            $table->string('email');
-            $table->string('password');
-            $table->text('map_location')->nullable();
-            $table->string('meet_link')->nullable();
+            $table->string('status');
+            $table->string('map_location')->nullable();
             $table->timestamps();
         });
     }
