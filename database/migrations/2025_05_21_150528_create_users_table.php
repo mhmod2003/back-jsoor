@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('phone')->unique()->nullable();
             $table->string('password');
             $table->enum('type', ['refugee', 'company', 'Admin']);
+            $table->string('status')->default('pending'); 
             $table->timestamps();
         });
     }

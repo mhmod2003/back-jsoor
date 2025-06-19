@@ -4,44 +4,60 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Company;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-
+use App\Models\RequestT;
+use App\Models\Notification;
 class CompanyController extends Controller
 {
-    public function store(Request $request)
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'user_id' => 'required|exists:users,id',
+        'name' => 'required|string',
+        'social_link' => 'nullable|string',
+        'description' => 'nullable|string',
+        'phone' => 'required|string',
+        'map_location' => 'nullable|string',
+    ]);
+
+    // إضافة الحالة يدوياً
+    $validated['status'] = 'pending';
+
+    // إنشاء الشركة
+    $company = Company::create($validated);
+
+    // إنشاء طلب انضمام للادمن
+    RequestT::create([
+        'user_id' => $request->user_id,
+        'ads_id' => null,
+        'not_id' => null,
+        'status' => 'pending',
+    ]);
+
+    // إرسال إشعار إلى الأدمن
+    Notification::create([
+        'user_id' => 1,
+        'title' => 'طلب شركة جديد',
+        'description' => 'تم تسجيل شركة جديدة باسم: ' . $company->name . '. الرجاء مراجعة الطلب.',
+    ]);
+
+    return response()->json(['message' => 'Company created and join request sent'], 201);
+}
+
+    // موافقة الأدمن على شركة
+    public function approve($id)
     {
-        $request->validate([
-            'name'        => 'required|string',
-            'email'       => 'required|email|unique:users',
-            'phone'       => 'required|string|min:10|unique:companies',
-            'password'    => 'required|string|min:6',
-            'description' => 'nullable|string',
-            'social_link' => 'nullable|url',
+        $company = Company::findOrFail($id);
+        $company->status = 'active';
+        $company->save();
+
+        // إرسال إشعار لصاحب الشركة
+        Notification::create([
+            'user_id' => $company->user_id,
+            'title' => 'تم تفعيل شركتك',
+            'description' => 'تمت الموافقة على شركتك "' . $company->name . '" من قبل الإدارة، يمكنك الآن استخدام المنصة.'
         ]);
 
-        // إنشاء مستخدم من النوع company
-        $user = User::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'password' => Hash::make($request->password),
-            'type'     => 'company',
-        ]);
-
-        // إنشاء الشركة وربطها بالمستخدم
-        $company = Company::create([
-            'user_id'     => $user->id,
-            'name'        => $request->name,
-            'phone'       => $request->phone,
-            'description' => $request->description,
-            'social_link' => $request->social_link,
-            'status'      => 'pending', // أو 'inactive' حسب النظام عندك
-            'map_location'   => null,      // مبدئياً فارغ
-        ]);
-
-        return response()->json([
-            'message' => 'Company registered successfully and waiting for approval.',
-            'data'    => $company,
-        ], 201);
+        return response()->json(['message' => 'Company approved and user notified.']);
     }
 }
+

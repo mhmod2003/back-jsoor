@@ -7,22 +7,37 @@ use App\Models\Refugee;
 
 class RefugeeController extends Controller
 {
+// إنشاء مهجر جديد
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
             'name' => 'required|string',
-            'number_of_family_members' => 'required|integer',
+            'phone' => 'required|string',
+            'number_of_family_member' => 'required|integer',
             'need' => 'required|string',
             'date_of_birth' => 'required|date',
-            'user_id' => 'required|exists:users,id',
+            'status' => 'required|string',
         ]);
 
-        $refugee = Refugee::create($request->all());
+        $refugee = Refugee::create($validated);
+        return response()->json($refugee, 201);
+    }
 
-        return response()->json([
-            'message' => 'Refugee created successfully',
-            'data' => $refugee
-        ], 201);
+    // تعديل بيانات مهجر
+    public function update(Request $request, $id)
+    {
+        $refugee = Refugee::findOrFail($id);
+        $refugee->update($request->all());
+        return response()->json($refugee);
+    }
+
+    // حذف مهجر
+    public function destroy($id)
+    {
+        $refugee = Refugee::findOrFail($id);
+        $refugee->delete();
+        return response()->json(['message' => 'Deleted successfully']);
     }
 }
 

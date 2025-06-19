@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('social_link')->nullable();
             $table->text('description')->nullable();
             $table->string('phone');
-            $table->string('status');
+            $table->string('status')->default('pending'); 
             $table->string('map_location')->nullable();
             $table->timestamps();
         });

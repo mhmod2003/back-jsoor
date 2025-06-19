@@ -7,60 +7,47 @@ use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    // 1. عرض جميع الإشعارات لمستخدم معيّن
+    public function index($userId)
     {
-        //
+        $notifications = Notification::where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json($notifications);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    // 2. إنشاء إشعار جديد (يدويًا)
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'title' => 'required|string',
+            'description' => 'required|string',
+        ]);
+
+        $notification = Notification::create($validated);
+
+        return response()->json([
+            'message' => 'Notification created successfully.',
+            'data' => $notification,
+        ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Notification $notification)
+    // 3. حذف إشعار واحد
+    public function destroy($id)
     {
-        //
+        $notification = Notification::findOrFail($id);
+        $notification->delete();
+
+        return response()->json(['message' => 'Notification deleted successfully.']);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Notification $notification)
+    // 4. حذف جميع الإشعارات لمستخدم
+    public function clearUserNotifications($userId)
     {
-        //
-    }
+        Notification::where('user_id', $userId)->delete();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Notification $notification)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Notification $notification)
-    {
-        //
+        return response()->json(['message' => 'All notifications cleared for this user.']);
     }
 }
-

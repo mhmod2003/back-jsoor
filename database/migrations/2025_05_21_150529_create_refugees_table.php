@@ -19,7 +19,8 @@ return new class extends Migration
             $table->integer('number_of_family_member');
             $table->text('need');
             $table->date('date_of_birth');
-            $table->string('status');
+            $table->string('status')->default('pending'); 
+
             $table->timestamps();
         });
     }
