@@ -59,5 +59,37 @@ public function store(Request $request)
 
         return response()->json(['message' => 'Company approved and user notified.']);
     }
+
+    // تعديل شركة
+public function update(Request $request, $id)
+{
+    $company = Company::findOrFail($id);
+
+    $validated = $request->validate([
+        'name' => 'sometimes|string',
+        'social_link' => 'nullable|string',
+        'description' => 'nullable|string',
+        'phone' => 'sometimes|string',
+        'map_location' => 'nullable|string',
+        'status' => 'in:pending,active,rejected' // اختيارية حسب الحالة
+    ]);
+
+    $company->update($validated);
+
+    return response()->json(['message' => 'Company updated successfully.']);
+}
+
+// حذف شركة
+public function destroy($id)
+{
+    $company = Company::findOrFail($id);
+    $company->delete();
+
+    return response()->json(['message' => 'Company deleted successfully.']);
+}
+public function index (){
+return Company::all();
+
+}
 }
 

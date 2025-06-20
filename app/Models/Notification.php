@@ -20,7 +20,7 @@ class Notification extends Model
 
 public function requests()
 {
-    return $this->belongsTo(Request::class, 'not_id');
+    return $this->belongsTo(RequestT::class, 'not_id');
 }
 
 }

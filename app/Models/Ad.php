@@ -28,7 +28,7 @@ class Ad extends Model
 
 public function requests()
 {
-    return $this->belongsTo(Request::class, 'ads_id');
+    return $this->belongsTo(RequestT::class, 'ads_id');
 }
 
 public function services()

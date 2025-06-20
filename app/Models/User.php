@@ -31,7 +31,7 @@ public function company()
 
 public function requests()
 {
-    return $this->hasMany(Request::class);
+    return $this->hasMany(RequestT::class);
 }
     /**
      * The attributes that are mass assignable.

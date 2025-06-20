@@ -60,6 +60,9 @@ Route::prefix('refugees')->group(function () {
     Route::post('/', [RefugeeController::class, 'store']);
     Route::put('/{id}', [RefugeeController::class, 'update']);
     Route::delete('/{id}', [RefugeeController::class, 'destroy']);
+    Route::post('/{id}/approve', [RefugeeController::class, 'approve']);
+    Route::get('/showall', [RefugeeController::class, 'index']);
+    
 });
 
 
@@ -77,12 +80,16 @@ Route::prefix('companies')->group(function () {
     Route::post('/', [CompanyController::class, 'store']);
     Route::put('/{id}', [CompanyController::class, 'update']);
     Route::delete('/{id}', [CompanyController::class, 'destroy']);
-    Route::put('/{id}/approve', [CompanyController::class, 'approve']);
+    Route::get('/', [CompanyController::class, 'index']);
+    Route::put('/companies/{id}/approve', [CompanyController::class, 'approve']);
+
 });
-Route::put('/ad-requests/{id}/accept', [AdRequestController::class, 'approveAdRequest']);
-Route::put('/ad-requests/{id}/reject', [AdRequestController::class, 'rejectAdRequest']);
-
-
+Route::middleware('auth:sanctum')->group(function () {
+    Route::put('/ad-requests/{id}/accept', [AdRequestController::class, 'approveAdRequest']);
+  Route::put('/ad-requests/{id}/reject', [AdRequestController::class, 'rejectAdRequest']);
+  Route::get('/ad-requests', [AdRequestController::class, 'index']);
+  });
+  
 //----------------Noti-------------------
 
 
